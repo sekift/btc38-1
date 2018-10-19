@@ -36,7 +36,7 @@ public class PanController {
 		String resultSrc = "【暂时没有，请耐心等候或联系管理员。】";
 		try {
 			resultSrc = FileUtils.readFileToString(new File("/www/client/monitor_crawler/link.txt"), "UTF-8");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return resultSrc;
