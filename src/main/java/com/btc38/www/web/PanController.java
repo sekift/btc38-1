@@ -64,6 +64,9 @@ public class PanController {
 		double iTotalScore = 0.00;
 		double iScore = 0.00;
 		double iValue = 0.00;
+		
+		double lv = 0.0445;
+		
 		for (String str : fileList) {
 			String id = str.split("\t")[0];
 			String name = str.split("\t")[1];
@@ -100,8 +103,14 @@ public class PanController {
 		iValue = new BigDecimal(iValue).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
 		
 		resultSrc = "<table width=\"400\" border=\"1\">"
-		          +"<tr><th>总分</th><th>"+iTotalScore+"</th><th>"
-		          + iScore+"</th><th>"+iValue+"</th><th></th><th></th><th></th>"+"</tr>"
+		          + "<tr><th>总分</th>"
+		          + "<th>"+iTotalScore+"</th>"
+		          + "<th>"+iScore+"</th>"
+		          + "<th>"+iValue+"</th>"
+		          + "<th>"+new BigDecimal(iTotalScore*lv).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue()+"</th>"
+		          + "<th>"+new BigDecimal(iScore*lv).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue()+"</th>"
+		          + "<th>"+new BigDecimal(iValue*lv).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue()+"</th>"
+		          + "</tr>"
 				  + resultSrc;
 		resultSrc = resultSrc+"</table>";
 		return resultSrc;
