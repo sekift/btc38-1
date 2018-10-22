@@ -24,15 +24,14 @@ public class PanController {
 	// 链接
 	private static final String TYT_URL = "http://tyt.tianya.cn/reward/getUserScore.do?userId=";
 
-	// 首次引入
-	private static List<String> fileList = new ArrayList<String>(50);
+	/*private static List<String> fileList = new ArrayList<String>(50);
 	static {
 		try {
 			fileList = FileUtils.readLines(new File("/www/client/monitor_crawler/link.txt"), "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	@RequestMapping(value = { "/tbpush" }, produces = { "text/event-stream;charset=UTF-8" })
 	@ResponseBody
@@ -54,6 +53,17 @@ public class PanController {
 	@ResponseBody
 	public String init() {
 		String resultSrc = "";
+		
+		List<String> fileList = new ArrayList<String>(50);
+		try {
+			fileList = FileUtils.readLines(new File("/www/client/monitor_crawler/link.txt"), "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		double iTotalScore = 0.00;
+		double iScore = 0.00;
+		double iValue = 0.00;
 		for (String str : fileList) {
 			String id = str.split("\t")[0];
 			String name = str.split("\t")[1];
@@ -68,18 +78,32 @@ public class PanController {
 					Map data = (Map) result.get("data");
 					double total = (double) data.get("score") + (double) data.get("estimateValue");
 					double totalScore = new BigDecimal(total).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
-					sb.append(id).append("\t")
-					        .append(totalScore).append("|")
-					        .append(data.get("score")).append("|")
-							.append(data.get("estimateValue")).append("\t")
-							.append(name).append("\t")
-							.append(mobile).append("\t").append(card);
+					iTotalScore += totalScore;
+					iScore += (double) data.get("score");
+					iValue += (double) data.get("estimateValue");
+					
+					sb.append("<th>").append(id).append("</th>")
+					.append("<th>").append(totalScore).append("</th>")
+					.append("<th>").append(data.get("score")).append("</th>")
+					.append("<th>").append(data.get("estimateValue")).append("</th>")
+					.append("<th>").append(name).append("</th>")
+					.append("<th>").append(mobile).append("</th>")
+					.append("<th>").append(card).append("</th>");
 
-					resultSrc = resultSrc + "<p>" + sb.toString() +"</p>";
+					resultSrc = resultSrc + "<tr>" + sb.toString() +"</tr>";
 				}
 			}
-			SleepUtil.sleepByMilliSecond(30, 50);
+			SleepUtil.sleepByMilliSecond(10, 16);
 		}
+		iTotalScore = new BigDecimal(iTotalScore).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();;
+		iScore = new BigDecimal(iScore).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+		iValue = new BigDecimal(iValue).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+		
+		resultSrc = "<table width=\"400\" border=\"1\">"
+		          +"<tr><th>总分</th><th>"+iTotalScore+"</th><th>"
+		          + iScore+"</th><th>"+iValue+"</th><th></th><th></th><th></th>"+"</tr>"
+				  + resultSrc;
+		resultSrc = resultSrc+"</table>";
 		return resultSrc;
 	}
 	
