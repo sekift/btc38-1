@@ -66,13 +66,13 @@ public class PanController {
 		double iValue = 0.00;
 		
 		double lv = 0.0445;
-		
+		int i = 0;
 		for (String str : fileList) {
 			String id = str.split("\t")[0];
 			String name = str.split("\t")[1];
 			String mobile = str.split("\t")[2];
 			String card = str.split("\t")[3];
-
+			
 			String doc = GetURLContent.getPageContent(TYT_URL + id);
 			if (doc != null) {
 				Map result = JsonUtil.toBean(doc, Map.class);
@@ -85,7 +85,9 @@ public class PanController {
 					iScore += (double) data.get("score");
 					iValue += (double) data.get("estimateValue");
 					
-					sb.append("<th>").append(id).append("</th>")
+					sb
+					.append("<th>").append(i+=1).append("</th>")
+					.append("<th>").append(id).append("</th>")
 					.append("<th>").append(totalScore).append("</th>")
 					.append("<th>").append(data.get("score")).append("</th>")
 					.append("<th>").append(data.get("estimateValue")).append("</th>")
@@ -103,7 +105,9 @@ public class PanController {
 		iValue = new BigDecimal(iValue).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
 		
 		resultSrc = "<table width=\"400\" border=\"1\">"
-		          + "<tr><th>总分</th>"
+		          + "<tr>"
+		          + "<th>序</th>"
+		          + "<th>总分</th>"
 		          + "<th>"+iTotalScore+"</th>"
 		          + "<th>"+iScore+"</th>"
 		          + "<th>"+iValue+"</th>"
