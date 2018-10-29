@@ -55,8 +55,10 @@ public class PanController {
 		String resultSrc = "";
 		
 		List<String> fileList = new ArrayList<String>(50);
+		String score = "0.1";
 		try {
 			fileList = FileUtils.readLines(new File("/www/client/monitor_crawler/link.txt"), "UTF-8");
+			score = FileUtils.readFileToString(new File("/www/client/monitor_crawler/score.txt"), "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,7 +67,7 @@ public class PanController {
 		double iScore = 0.00;
 		double iValue = 0.00;
 		
-		double lv = 0.0445;
+		double lv = Double.valueOf(score);
 		int i = 0;
 		for (String str : fileList) {
 			String id = str.split("\t")[0];
