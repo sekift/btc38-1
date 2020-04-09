@@ -101,8 +101,9 @@ public class GetURLContent {
 		String content = null;
 		String title = null;
 		GetMethod method = null;
+		HttpClient httpClient = null;
 		try {
-			HttpClient httpClient = new HttpClient();
+			httpClient = new HttpClient();
 			// 1、网络请求
 			method = new GetMethod(urlName);
 			int statusCode = httpClient.executeMethod(method);
@@ -128,6 +129,7 @@ public class GetURLContent {
 		} finally {
 			// 释放连接
 			method.releaseConnection();
+			httpClient.getHttpConnectionManager().closeIdleConnections(0);
 		}
 		return title;
 	}

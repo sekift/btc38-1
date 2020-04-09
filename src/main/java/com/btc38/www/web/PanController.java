@@ -93,7 +93,7 @@ public class PanController {
 					.append("<th>").append(totalScore).append("</th>")
 					.append("<th>").append(data.get("score")).append("</th>")
 					.append("<th>").append(data.get("estimateValue")).append("</th>")
-					.append("<th>").append(name).append("</th>")
+					.append("<th>").append(name.trim()).append("</th>")
 					.append("<th>").append(mobile).append("</th>")
 					.append("<th>").append(card).append("</th>");
 
