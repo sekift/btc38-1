@@ -23,7 +23,7 @@
 		<codec.version>1.4</codec.version>
 		<email.version>1.4</email.version>
 		<httpclient.version>3.0.1</httpclient.version>
-		<io.version>2.4</io.version>
+		<io.version>2.7</io.version>
 		<lang.version>2.4</lang.version>
 		<htmlparser.version>1.5</htmlparser.version>
 	</properties>
